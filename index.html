@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voiceflow Chatbot</title>
+</head>
+<body style="margin: 0; padding: 0; overflow: hidden;">
+  <div id="voiceflow-chat"></div>
+
+  <script type="text/javascript">
+    // Function to get the query parameter from the URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Extract the user_token from the URL
+    const userToken = getQueryParam('user_token');
+
+    if (!userToken) {
+      console.error('User token not provided in the URL!');
+    } else {
+      console.log('User token retrieved:', userToken);
+    }
+
+    // Pass the user token to the Voiceflow widget
+    (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { 
+            projectID: '674327267b7e1b1fb41bad9c', 
+            metadata: { user_token: userToken } // Pass user_token to Voiceflow
+          },
+          url: 'https://general-runtime.voiceflow.com',
+          versionID: 'production'
+        });
+      }
+      v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
+      v.type = "text/javascript"; 
+      s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
+</body>
+</html>
