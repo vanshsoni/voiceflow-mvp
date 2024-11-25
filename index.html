@@ -34,12 +34,11 @@
           },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production',
-          userID: userToken, // Use userToken as the unique identifier
           launch: {
             event: {
               type: "launch",
               payload: {
-                user_token: userToken // Pass user_token dynamically
+                user_token: userToken            
               }
             }
           }
