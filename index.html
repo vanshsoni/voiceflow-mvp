@@ -5,22 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Voiceflow Chatbot</title>
   <style>
-    /* Full-page style for the Voiceflow widget */
-    #voiceflow-chat .voiceflow-chat-widget {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      z-index: 9999 !important; /* Ensure it stays on top */
+    /* Full-page styling for the chat container */
+    #voiceflow-chat-frame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999; /* Ensure it overlays other elements */
     }
   </style>
 </head>
 <body style="margin: 0; padding: 0; overflow: hidden;">
-  <div id="voiceflow-chat"></div>
+  <!-- Container for the embedded chat -->
+  <div id="voiceflow-chat-frame"></div>
 
   <script type="text/javascript">
-    // Function to get the query parameter from the URL
+    // Function to retrieve query parameters from the URL
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
@@ -35,41 +36,31 @@
       console.log('User token retrieved:', userToken);
     }
 
-    // Pass the user token and dynamic variables to the Voiceflow widget
+    // Load the Voiceflow chat widget
     (function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
         window.voiceflow.chat.load({
           verify: { 
-            projectID: '674327267b7e1b1fb41bad9c'
+            projectID: '674327267b7e1b1fb41bad9c' // Replace with your actual project ID
           },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production',
-          open: true, // Ensure widget is opened automatically
+          render: {
+            mode: 'embedded', // Set to 'embedded' to render within the specified element
+            target: document.getElementById('voiceflow-chat-frame') // Target the container element
+          },
+          autostart: true, // Automatically start the chat session
           launch: {
             event: {
               type: "launch",
               payload: {
-                user_token: userToken || "Not Provided",
-                user_name: "Test"
+                user_token: userToken || "Not Provided"
               }
             }
           }
         });
-
-        // Ensure the widget opens in full-page view
-        setTimeout(() => {
-          const widget = document.querySelector('.voiceflow-chat-widget');
-          if (widget) {
-            widget.style.position = 'fixed';
-            widget.style.top = '0';
-            widget.style.left = '0';
-            widget.style.width = '100vw';
-            widget.style.height = '100vh';
-            widget.style.zIndex = '9999'; // Ensure it is above other elements
-          }
-        }, 500); // Wait for widget to load
-      }
+      };
       v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
       v.type = "text/javascript"; 
       s.parentNode.insertBefore(v, s);
