@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Voiceflow Chatbot</title>
+  <style>
+    /* Full-page style for the Voiceflow widget */
+    #voiceflow-chat .voiceflow-chat-widget {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 9999 !important; /* Ensure it stays on top */
+    }
+  </style>
 </head>
 <body style="margin: 0; padding: 0; overflow: hidden;">
   <div id="voiceflow-chat"></div>
@@ -34,7 +45,7 @@
           },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production',
-          open: true,
+          open: true, // Ensure widget is opened automatically
           launch: {
             event: {
               type: "launch",
@@ -45,12 +56,24 @@
             }
           }
         });
+
+        // Ensure the widget opens in full-page view
+        setTimeout(() => {
+          const widget = document.querySelector('.voiceflow-chat-widget');
+          if (widget) {
+            widget.style.position = 'fixed';
+            widget.style.top = '0';
+            widget.style.left = '0';
+            widget.style.width = '100vw';
+            widget.style.height = '100vh';
+            widget.style.zIndex = '9999'; // Ensure it is above other elements
+          }
+        }, 500); // Wait for widget to load
       }
       v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
       v.type = "text/javascript"; 
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
-</script>
-
+  </script>
 </body>
 </html>
