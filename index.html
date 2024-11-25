@@ -16,7 +16,7 @@
     }
 
     // Extract the user_token from the URL
-    const userToken = getQueryParam('user_token');
+    const userToken = getQueryParam('token');
 
     if (!userToken) {
       console.error('User token not provided in the URL!');
@@ -38,7 +38,7 @@
             event: {
               type: "launch",
               payload: {
-                user_token: userToken            
+                user_token: userToken || "Not Provided"          
               }
             }
           }
