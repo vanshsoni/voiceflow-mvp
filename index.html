@@ -24,23 +24,32 @@
       console.log('User token retrieved:', userToken);
     }
 
-    // Pass the user token to the Voiceflow widget
+    // Pass the user token and dynamic variables to the Voiceflow widget
     (function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
         window.voiceflow.chat.load({
           verify: { 
-            projectID: '674327267b7e1b1fb41bad9c', 
-            metadata: { user_token: userToken } // Pass user_token to Voiceflow
+            projectID: '674327267b7e1b1fb41bad9c'
           },
           url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production'
+          versionID: 'production',
+          userID: userToken, // Use userToken as the unique identifier
+          launch: {
+            event: {
+              type: "launch",
+              payload: {
+                user_token: userToken // Pass user_token dynamically
+              }
+            }
+          }
         });
       }
       v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
       v.type = "text/javascript"; 
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
-  </script>
+</script>
+
 </body>
 </html>
