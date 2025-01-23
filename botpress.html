@@ -1,0 +1,37 @@
+<div class="webchat" style="height: 600px; width: 400px;">
+  <iframe
+    style="height: 100%; width: 100%; border: none;"
+    srcdoc='
+    <!doctype html>
+    <html lang="en">
+      <head></head>
+      <body>
+        <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+        <script defer>
+          window.botpress.on("webchat:ready", (conversationId) => {
+            botpress.open();
+          });
+          <!-- REPLACE THE CONTENT BELOW WITH THE JAVASCRIPT CODE YOU COPIED EARILER -->
+          window.botpress.init({
+  "botId": "7e7d5f77-45fe-4bca-88ab-6e327737dfc8",
+  "configuration": {
+    "botName": "Numana Blu AI Chatbot",
+    "website": {},
+    "email": {},
+    "phone": {},
+    "termsOfService": {},
+    "privacyPolicy": {},
+    "color": "#8eadb5",
+    "variant": "solid",
+    "themeMode": "light",
+    "fontFamily": "rubik",
+    "radius": 3,
+    "additionalStylesheetUrl": "https://files.bpcontent.cloud/2025/01/22/10/20250122105744-WZD9RAI6.css"
+  },
+  "clientId": "560c639d-3203-4e3e-80f2-a88d5c75d719"
+});          <!-- REPLACE THE CONTENT ABOVE -->
+        </script>
+      </body>
+    </html>'
+  ></iframe>
+</div>
