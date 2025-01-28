@@ -17,14 +17,11 @@
     </style>
   </head>
   <body>
-    <canvas id="confetti-canvas"></canvas>
-    <div id="flat-chat"></div>
     <div id="voiceflow-chat-frame"></div>
     <script type="module">
       import { 
                 DateExtension
  } from '/voiceflow-mvp/extensions.js';
-
       (function (d, t) {
         var v = d.createElement(t),
           s = d.getElementsByTagName(t)[0];
@@ -33,28 +30,17 @@
             verify: { projectID: '679902be2a33787b0e1b744d' },
             url: 'https://general-runtime.voiceflow.com',
             versionID: 'production',
-            user: {
-              name: 'Demo User',
-            },
-            render: {
-              mode: 'overlay',
-            },
             autostart: true,
             allowDangerousHTML: true,
+                      render: {
+            mode: 'embedded', // Set to 'embedded' to render within the specified element
+            target: document.getElementById('voiceflow-chat-frame') // Target the container element
+          },
             assistant: {
               extensions: [
-                DisableInputExtension,
-                VideoExtension,
-                TimerExtension,
-                FormExtension,
-                MapExtension,
-                FileUploadExtension,
-                KBUploadExtension,
-                DateExtension,
-                ConfettiExtension,
-                FeedbackExtension,
+                DateExtension
               ],
-            },
+            }
           });
         };
         v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
