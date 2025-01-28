@@ -1,0 +1,66 @@
+<!-- THIS IS AN EXAMPLE PAGE AND SHOULD NOT BE USED OUTSIDE OF DEVELOPMENT -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Widget | Extensions Demo</title>
+    <style>
+      body {
+        background-color: #f9f9f9;
+      }
+      #flat-chat {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="confetti-canvas"></canvas>
+    <div id="flat-chat"></div>
+    <div id="voiceflow-chat-frame"></div>
+    <script type="module">
+      import { 
+                DateExtension
+ } from '/extensions.js';
+
+      (function (d, t) {
+        var v = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        v.onload = function () {
+          window.voiceflow.chat.load({
+            verify: { projectID: '679902be2a33787b0e1b744d' },
+            url: 'https://general-runtime.voiceflow.com',
+            versionID: 'production',
+            user: {
+              name: 'Demo User',
+            },
+            render: {
+              mode: 'overlay',
+            },
+            autostart: true,
+            allowDangerousHTML: true,
+            assistant: {
+              extensions: [
+                DisableInputExtension,
+                VideoExtension,
+                TimerExtension,
+                FormExtension,
+                MapExtension,
+                FileUploadExtension,
+                KBUploadExtension,
+                DateExtension,
+                ConfettiExtension,
+                FeedbackExtension,
+              ],
+            },
+          });
+        };
+        v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
+        v.type = 'text/javascript';
+        s.parentNode.insertBefore(v, s);
+      })(document, 'script');
+    </script>
+  </body>
+</html>
