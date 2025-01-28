@@ -12,7 +12,9 @@
   <!-- Container for the embedded chat -->
   <div id="voiceflow-chat-frame"></div>
 
-  <script type="text/javascript">
+  <script type="module">
+    import {DateExtension} from '/voiceflow-mvp/extensions.js';
+    
     // Function to retrieve query parameters from the URL
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
@@ -42,7 +44,12 @@
             mode: 'embedded', // Set to 'embedded' to render within the specified element
             target: document.getElementById('voiceflow-chat-frame') // Target the container element
           },
-          autostart: true, // Automatically start the chat session
+            assistant: {
+              extensions: [
+                DateExtension
+              ],
+            },
+          autostart: false, // Automatically start the chat session
           launch: {
             event: {
               type: "launch",
