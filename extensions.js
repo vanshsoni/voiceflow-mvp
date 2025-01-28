@@ -69,11 +69,12 @@ export const DateExtension = {
               opacity: 1; /* Make the button fully opaque when it's enabled */
             }
           </style>
-          <label for="start-date">Select your start date</label><br>
+          <div><p>Kindly select holiday dates (*As per policy, we allow only 14 days advance request to process)</p></div><br>
+          <label for="start-date">From Date</label><br>
           <div class="meeting"><input type="date" id="start-date" name="start-date" value="" min="${minDateString}" max="${maxDateString}" /></div><br>
-          <label for="end-date">Select your end date</label><br>
+          <label for="end-date">To Date</label><br>
           <div class="meeting"><input type="date" id="end-date" name="end-date" value="" min="${minDateString}" max="${maxDateString}" /></div><br>
-          <input type="submit" id="submit" class="submit" value="Submit" disabled="disabled">
+          <input type="submit" id="submit" class="submit" value="Request for holiday" disabled="disabled">
           `;
 
     const submitButton = formContainer.querySelector('#submit');
