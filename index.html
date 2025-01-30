@@ -4,16 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Voiceflow Chatbot</title>
-  <style>
-
-  </style>
 </head>
 <body>
   <!-- Container for the embedded chat -->
   <div id="voiceflow-chat-frame"></div>
 
   <script type="module">
-    import {DateExtension} from '/voiceflow-mvp/extensions.js';
+    import { DateExtension } from '/voiceflow-mvp/extensions.js';
     
     // Function to retrieve query parameters from the URL
     function getQueryParam(param) {
@@ -44,11 +41,11 @@
             mode: 'embedded', // Set to 'embedded' to render within the specified element
             target: document.getElementById('voiceflow-chat-frame') // Target the container element
           },
-            assistant: {
-              extensions: [
-                DateExtension
-              ],
-            },
+          assistant: {
+            extensions: [
+              DateExtension
+            ],
+          },
           autostart: true,
           allowDangerousHTML: true,
           launch: {
@@ -65,6 +62,20 @@
       v.type = "text/javascript"; 
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
+
+    // Function to detect OS and set font
+    function detectOS() {
+      let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        document.body.style.fontFamily = "'San Francisco', Arial, sans-serif"; // iOS Font
+      } else if (/android/i.test(userAgent)) {
+        document.body.style.fontFamily = "'Roboto', Arial, sans-serif"; // Android Font
+      }
+    }
+
+    // Apply OS-specific font when page loads
+    document.addEventListener("DOMContentLoaded", detectOS);
   </script>
 </body>
 </html>
