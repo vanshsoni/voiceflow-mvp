@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Voiceflow Chatbot</title>
   <style>
-    .vfrc-system-response .vfrc-message {
-      font-size: 16px !important;
-      line-height: 24px !important;
-    }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+#voiceflow-chat-frame {
+    width: 100vw;  /* Full width */
+    height: 100vh; /* Full height */
+    position: absolute; /* Ensure it occupies the entire screen */
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
     </style>
 </head>
 <body>
