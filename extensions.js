@@ -4,19 +4,19 @@ export const DateExtension = {
   match: ({ trace }) =>
     trace.type === 'ext_date' || trace.payload?.name === 'ext_date',
   render: ({ trace, element }) => {
-    // Function to create a new date picker
+    // Function to create a fresh date picker with unique input IDs
     const createDatePicker = () => {
       console.log("Generating new date picker...");
 
-      // Step 1: Clear the existing form before rendering a new one
+      // Step 1: Clear any previous form before adding a new one
       while (element.firstChild) {
         element.removeChild(element.firstChild);
       }
 
-      // Step 2: Generate a unique form ID to avoid caching issues
-      const uniqueFormId = `date-form-${Date.now()}`;
+      // Generate unique IDs for date inputs
+      const startDateId = `start-date-${Date.now()}`;
+      const endDateId = `end-date-${Date.now()}`;
       const formContainer = document.createElement('form');
-      formContainer.id = uniqueFormId;
 
       let currentDate = new Date();
       let minDate = new Date();
@@ -59,21 +59,22 @@ export const DateExtension = {
               .submit:enabled { opacity: 1; }
             </style>
             <div><p>⁠Kindly select the time you would like to request a holiday for. (Please note requests must be done min. 14 days in advance)</p></div><br>
-            <label for="start-date">From Date</label><br>
-            <div class="meeting"><input type="date" id="start-date" name="start-date" min="${minDateString}" max="${maxDateString}" /></div><br>
-            <label for="end-date">To Date</label><br>
-            <div class="meeting"><input type="date" id="end-date" name="end-date" min="${minDateString}" max="${maxDateString}" /></div><br>
+            <label for="${startDateId}">From Date</label><br>
+            <div class="meeting"><input type="date" id="${startDateId}" name="start-date" min="${minDateString}" max="${maxDateString}" /></div><br>
+            <label for="${endDateId}">To Date</label><br>
+            <div class="meeting"><input type="date" id="${endDateId}" name="end-date" min="${minDateString}" max="${maxDateString}" /></div><br>
             <input type="submit" id="submit" class="submit" value="Continue" disabled="disabled">
             `;
 
       const submitButton = formContainer.querySelector('#submit');
-      const startDateInput = formContainer.querySelector('#start-date');
-      const endDateInput = formContainer.querySelector('#end-date');
+      const startDateInput = formContainer.querySelector(`#${startDateId}`);
+      const endDateInput = formContainer.querySelector(`#${endDateId}`);
 
+      // Clear existing values to avoid carrying over previous selections
       startDateInput.value = "";
       endDateInput.value = "";
 
-      // Enable the submit button only when both dates are selected
+      // Validate input before enabling submit button
       const validateInputs = () => {
         if (startDateInput.value && endDateInput.value) {
           const startDate = new Date(startDateInput.value);
@@ -102,7 +103,7 @@ export const DateExtension = {
           payload: { startDate: startDate, endDate: endDate },
         });
 
-        // Step 4: Remove the old form and generate a new one
+        // Step 4: Remove the old form and generate a new one with different input IDs
         setTimeout(() => {
           console.log("Refreshing date picker after submission...");
           createDatePicker();
