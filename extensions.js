@@ -6,111 +6,120 @@ export const DateExtension = {
   match: ({ trace }) =>
     trace.type === 'ext_date' || trace.payload?.name === 'ext_date',
   render: ({ trace, element }) => {
-    const formContainer = document.createElement('form');
-
-    // Get current date and adjust for min and max date range
-    let currentDate = new Date();
-    let minDate = new Date();
-    minDate.setDate(currentDate.getDate() + 14); // 14 days from today
-    let maxDate = new Date();
-    maxDate.setFullYear(currentDate.getFullYear() + 1); // 1 year from today
-
-    // Convert to ISO string and remove time
-    let minDateString = minDate.toISOString().slice(0, 10);
-    let maxDateString = maxDate.toISOString().slice(0, 10);
-
-    formContainer.innerHTML = `
-          <style>
-            label {
-              font-size: 0.8em;
-              color: #888;
-            }
-            input[type="date"]::-webkit-calendar-picker-indicator {
-                border: none;
-                background: transparent;
-                border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
-                bottom: 0;
-                outline: none;
-                color: transparent;
-                cursor: pointer;
-                height: auto;
-                left: 0;
-                position: absolute;
-                right: 0;
-                top: 0;
-                width: auto;
-                padding:6px;
-                font: normal 8px sans-serif;
-            }
-            .meeting input{
-              background: transparent;
-              border: none;
-              padding: 2px;
-              border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
-              font: normal 14px sans-serif;
-              outline:none;
-              margin: 5px 0;
-              &:focus{outline:none;}
-            }
-            .invalid {
-              border-color: red;
-            }
-            .submit {
-              background: linear-gradient(to right, #2e6ee1, #2e7ff1 );
-              border: none;
-              color: white;
-              padding: 10px;
-              border-radius: 5px;
-              width: 100%;
-              cursor: pointer;
-              opacity: 0.3;
-            }
-            .submit:enabled {
-              opacity: 1; /* Make the button fully opaque when it's enabled */
-            }
-          </style>
-          <div><p>⁠Kindly select the time you would like to request a holiday for. (Please note requests must be done min. 14 days in advance)</p></div><br>
-          <label for="start-date">From Date</label><br>
-          <div class="meeting"><input type="date" id="start-date" name="start-date" value="" min="${minDateString}" max="${maxDateString}" /></div><br>
-          <label for="end-date">To Date</label><br>
-          <div class="meeting"><input type="date" id="end-date" name="end-date" value="" min="${minDateString}" max="${maxDateString}" /></div><br>
-          <input type="submit" id="submit" class="submit" value="Continue" disabled="disabled">
-          `;
-
-    const submitButton = formContainer.querySelector('#submit');
-    const startDateInput = formContainer.querySelector('#start-date');
-    const endDateInput = formContainer.querySelector('#end-date');
-
-    const validateInputs = () => {
-      if (startDateInput.value && endDateInput.value) {
-        const startDate = new Date(startDateInput.value);
-        const endDate = new Date(endDateInput.value);
-        submitButton.disabled = startDate <= endDate ? false : true;
-      } else {
-        submitButton.disabled = true;
+    // Function to render the form dynamically
+    const renderForm = () => {
+      // Remove any existing form before re-rendering
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
       }
+
+      const formContainer = document.createElement('form');
+
+      // Get current date and adjust for min and max date range
+      let currentDate = new Date();
+      let minDate = new Date();
+      minDate.setDate(currentDate.getDate() + 14); // 14 days from today
+      let maxDate = new Date();
+      maxDate.setFullYear(currentDate.getFullYear() + 1); // 1 year from today
+
+      let minDateString = minDate.toISOString().slice(0, 10);
+      let maxDateString = maxDate.toISOString().slice(0, 10);
+
+      formContainer.innerHTML = `
+            <style>
+              label { font-size: 0.8em; color: #888; }
+              input[type="date"]::-webkit-calendar-picker-indicator {
+                  border: none;
+                  background: transparent;
+                  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+                  cursor: pointer;
+                  padding:6px;
+              }
+              .meeting input {
+                background: transparent;
+                border: none;
+                padding: 2px;
+                border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+                font: normal 14px sans-serif;
+                outline:none;
+                margin: 5px 0;
+              }
+              .invalid { border-color: red; }
+              .submit {
+                background: linear-gradient(to right, #2e6ee1, #2e7ff1);
+                border: none;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                width: 100%;
+                cursor: pointer;
+                opacity: 0.3;
+              }
+              .submit:enabled { opacity: 1; }
+              .change-date {
+                background: transparent;
+                border: none;
+                color: #2e7ff1;
+                text-decoration: underline;
+                cursor: pointer;
+                font-size: 0.9em;
+                margin-top: 10px;
+                display: block;
+              }
+            </style>
+            <div><p>⁠Kindly select the time you would like to request a holiday for. (Please note requests must be done min. 14 days in advance)</p></div><br>
+            <label for="start-date">From Date</label><br>
+            <div class="meeting"><input type="date" id="start-date" name="start-date" value="" min="${minDateString}" max="${maxDateString}" /></div><br>
+            <label for="end-date">To Date</label><br>
+            <div class="meeting"><input type="date" id="end-date" name="end-date" value="" min="${minDateString}" max="${maxDateString}" /></div><br>
+            <input type="submit" id="submit" class="submit" value="Continue" disabled="disabled">
+            <button type="button" id="change-date" class="change-date">Change Date</button>
+            `;
+
+      const submitButton = formContainer.querySelector('#submit');
+      const startDateInput = formContainer.querySelector('#start-date');
+      const endDateInput = formContainer.querySelector('#end-date');
+      const changeDateButton = formContainer.querySelector('#change-date');
+
+      const validateInputs = () => {
+        if (startDateInput.value && endDateInput.value) {
+          const startDate = new Date(startDateInput.value);
+          const endDate = new Date(endDateInput.value);
+          submitButton.disabled = startDate <= endDate ? false : true;
+        } else {
+          submitButton.disabled = true;
+        }
+      };
+
+      startDateInput.addEventListener('input', validateInputs);
+      endDateInput.addEventListener('input', validateInputs);
+
+      formContainer.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const startDate = startDateInput.value;
+        const endDate = endDateInput.value;
+
+        console.log({ startDate, endDate });
+
+        formContainer.querySelector('.submit').remove();
+
+        window.voiceflow.chat.interact({
+          type: 'complete',
+          payload: { startDate: startDate, endDate: endDate },
+        });
+      });
+
+      // **Handle Change Date Click**
+      changeDateButton.addEventListener('click', () => {
+        renderForm(); // Reinitialize form on "Change Date" click
+      });
+
+      element.appendChild(formContainer);
     };
 
-    startDateInput.addEventListener('input', validateInputs);
-    endDateInput.addEventListener('input', validateInputs);
-
-    formContainer.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      const startDate = startDateInput.value;
-      const endDate = endDateInput.value;
-
-      console.log({ startDate, endDate });
-
-      formContainer.querySelector('.submit').remove();
-
-      window.voiceflow.chat.interact({
-        type: 'complete',
-        payload: { startDate: startDate, endDate: endDate },
-      });
-    });
-
-    element.appendChild(formContainer);
+    // Initial form render
+    renderForm();
   },
 };
 
